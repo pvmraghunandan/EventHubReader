@@ -17,3 +17,6 @@ If consumer group is not provided, it uses the default consumer group.
 For every event data, it saves two files
 1. EventData_GUID.json : contains body of event data.
 2. EventData_Properties : Properties of Event Data.
+
+
+For the filter, it just supports one called VIN. Will be undergoing changes to handle in generic way to configure filters
