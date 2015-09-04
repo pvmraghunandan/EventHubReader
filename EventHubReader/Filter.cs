@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using Microsoft.ServiceBus.Messaging;
 
 namespace EventHubReader
 {
@@ -30,12 +31,21 @@ namespace EventHubReader
 
         public static BlockingCollection<string> BlockingCollection;
 
+        public static BlockingCollection<EventData> EventDataCollection;
+
         private static object receiverLock = new object();
 
         public static void InsertIntoBlockingCollection(string logMessage)
         {
             Monitor.Enter(receiverLock);
             Filter.BlockingCollection.Add(logMessage);
+            Monitor.Exit(receiverLock);
+        }
+
+        public static void InsertIntoEventDataCollection(EventData data)
+        {
+            Monitor.Enter(receiverLock);
+            Filter.EventDataCollection.Add(data);
             Monitor.Exit(receiverLock);
         }
 

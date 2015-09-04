@@ -26,9 +26,7 @@ namespace EventHubReader
     /// </summary>
     public partial class MainWindow : Window
     {
-        private EventHubClient eventHubClient = null;
-        private EventHubConsumerGroup consumerGroup = null;
-        private EventProcessorHost eventProcessorHost = null;
+        private EventReceiver receiver;
         private CancellationTokenSource cancellationToken;
 
         public MainWindow()
@@ -38,6 +36,7 @@ namespace EventHubReader
 
         private async void Eh_Connect(object sender, RoutedEventArgs e)
         {
+            receiver = new EventReceiver();
             var eventHubConnectionString = ConfigurationManager.AppSettings["EventHub.ConnectionString"];
             var storageConnectionString = ConfigurationManager.AppSettings["storage"];
             if (string.IsNullOrWhiteSpace(eventHubConnectionString))
@@ -71,16 +70,10 @@ namespace EventHubReader
                 Filter.Vin = txtVIN.Text;
                 try
                 {
-                    Filter.BlockingCollection = new BlockingCollection<string>(int.MaxValue);
                     this.cancellationToken = new CancellationTokenSource();
                     this.txtBox.Text = "Connecting....";
                     this.progressBar.Visibility = Visibility.Visible;
-                    this.eventHubClient = EventHubClient.CreateFromConnectionString(eventHubConnectionString, txtEN.Text);
-                   this.consumerGroup = string.IsNullOrWhiteSpace(txtCG.Text)
-                        ? eventHubClient.GetDefaultConsumerGroup()
-                        : eventHubClient.GetConsumerGroup(txtCG.Text);
-                    this.eventProcessorHost = new EventProcessorHost("EventHubReader", eventHubClient.Path, this.consumerGroup.GroupName, eventHubConnectionString, storageConnectionString);
-                    await this.eventProcessorHost.RegisterEventProcessorAsync<EventProcessor>();
+                    await this.receiver.InitializeEventProcessor(eventHubConnectionString, txtEN.Text, storageConnectionString, txtPath.Text, txtCG.Text, txtVIN.Text, txtAID.Text);
                     this.btnConnect.IsEnabled = false;
                     this.btnDisconnect.IsEnabled = true;
                     this.txtBox.Text = "Connected";
@@ -105,31 +98,28 @@ namespace EventHubReader
             }
         }
 
+       
         private async void Eh_Disconnect(object sender, RoutedEventArgs e)
         {
-            if (this.eventProcessorHost != null)
-            {
-                try
-                {
-                    this.txtBox.Text = "Disconnecting";
-                    this.progressBar.Visibility = Visibility.Visible;
-                    await eventProcessorHost.UnregisterEventProcessorAsync(); 
-                }
-                catch (Exception)
-                {
-                    WriteTraceMessage("Error in Disconnecting");
+             try
+             {
+                 this.txtBox.Text = "Disconnecting";
+                 this.progressBar.Visibility = Visibility.Visible;
+                 await this.receiver.Disconnect();
+             }
+             catch (Exception)
+             {
+                 WriteTraceMessage("Error in Disconnecting");
 
-                }
-                finally
-                {
-                    this.btnConnect.IsEnabled = true;
-                    this.btnDisconnect.IsEnabled = false;
-                    this.progressBar.Visibility = Visibility.Hidden;
-                    this.txtBox.Text = "Disconnected";
-                    Filter.BlockingCollection.CompleteAdding();
-                    cancellationToken.Cancel();
-                }
-            }
+             }
+             finally
+             {
+                 this.btnConnect.IsEnabled = true;
+                 this.btnDisconnect.IsEnabled = false;
+                 this.progressBar.Visibility = Visibility.Hidden;
+                 this.txtBox.Text = "Disconnected";
+                 cancellationToken.Cancel();
+             }
         }
 
         private void WriteTraceMessage(string message)

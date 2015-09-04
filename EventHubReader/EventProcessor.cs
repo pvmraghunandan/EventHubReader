@@ -62,20 +62,29 @@ namespace EventHubReader
             {
                 try
                 {
-                    foreach (EventData lobjData in messages)
+                    foreach (EventData eventData in messages)
                     {
-                        var message = string.Format("Message received.  Partition: '{0}', Offset: '{1}' , SequenceNumber: '{2}'", partitionContext.Lease.PartitionId, lobjData.Offset, lobjData.SequenceNumber);
+                        var message = string.Format("Message received.  Partition: '{0}', Offset: '{1}' , SequenceNumber: '{2}'", partitionContext.Lease.PartitionId, eventData.Offset, eventData.SequenceNumber);
                         if (!string.IsNullOrWhiteSpace(Filter.Vin))
                         {
-                            if (lobjData.Properties[Constants.VehicleInformationKey].ToString().Equals(Filter.Vin))
+                            if (eventData.Properties[Constants.VehicleInformationKey].ToString().Equals(Filter.Vin))
                             {
-                                this.eventDataInspector.AfterReceiveMessage(lobjData);
+                                this.eventDataInspector.AfterReceiveMessage(eventData);
                                 Filter.InsertIntoBlockingCollection(message);
+                            }
+                        }
+                        else if (!string.IsNullOrWhiteSpace(Filter.ActivityId))
+                        {
+                            if (eventData.Properties[Constants.ActivityIdKey].ToString().Equals(Filter.ActivityId))
+                            {
+                                this.eventDataInspector.AfterReceiveMessage(eventData);
+                                Filter.InsertIntoBlockingCollection(message);
+                                Filter.InsertIntoEventDataCollection(eventData);
                             }
                         }
                         else
                         {
-                            this.eventDataInspector.AfterReceiveMessage(lobjData);
+                            this.eventDataInspector.AfterReceiveMessage(eventData);
                             Filter.InsertIntoBlockingCollection(message);
                         }
 

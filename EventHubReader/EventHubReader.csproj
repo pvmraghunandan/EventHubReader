@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="EventProcessor.cs" />
+    <Compile Include="EventReceiver.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="IEventDataInspector.cs" />
     <Compile Include="LogEventData.cs" />
