@@ -22,7 +22,7 @@ namespace EventHubReader
         private EventHubConsumerGroup consumerGroup = null;
         private EventProcessorHost eventProcessorHost = null;
 
-        public async Task InitializeEventProcessor(string connectionString, string eventHubName, string storageConnectionString, string path, string cGroup = null, string vin = null, string activityId = null)
+        public Task InitializeEventProcessor(string connectionString, string eventHubName, string storageConnectionString, string path, string cGroup = null, string vin = null, string activityId = null)
         {
             Filter.BlockingCollection = new BlockingCollection<string>(int.MaxValue);
             Filter.EventDataCollection = new BlockingCollection<EventData>(int.MaxValue);
@@ -34,7 +34,7 @@ namespace EventHubReader
                  ? eventHubClient.GetDefaultConsumerGroup()
                  : eventHubClient.GetConsumerGroup(cGroup);
             this.eventProcessorHost = new EventProcessorHost("EventHubReader", eventHubClient.Path, this.consumerGroup.GroupName, connectionString, storageConnectionString);
-            await this.eventProcessorHost.RegisterEventProcessorAsync<EventProcessor>();
+            return this.eventProcessorHost.RegisterEventProcessorAsync<EventProcessor>();
         }
 
         public async Task Disconnect()
