@@ -18,5 +18,6 @@ For every event data, it saves two files
 1. EventData_GUID.json : contains body of event data.
 2. EventData_Properties : Properties of Event Data.
 
+Moved out the base implemenatation of processing from Event Hub to library so that it can be plug and played with any unit test (or) console application
 
-For the filter, it just supports one called VIN. Will be undergoing changes to handle in generic way to configure filters
+For the filter, it just supports ActivityId,  VIN. Will be undergoing changes to handle in generic way to configure filters
