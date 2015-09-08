@@ -11,7 +11,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace EventHubReader
+namespace EventHubReaderLib
 {
     #region Using Directives
 

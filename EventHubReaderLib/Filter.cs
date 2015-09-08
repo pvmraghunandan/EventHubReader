@@ -10,13 +10,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Concurrent;
-using System.Threading;
-using Microsoft.ServiceBus.Messaging;
-
-namespace EventHubReader
+namespace EventHubReaderLib
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Threading;
+    using Microsoft.ServiceBus.Messaging;
+
     public class Filter
     {
         public static string ConsumerGroup { get; set; }

@@ -10,7 +10,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace EventHubReader
+namespace EventHubReaderLib
 {
     using System;
     using System.Collections.Generic;
@@ -23,7 +23,6 @@ namespace EventHubReader
     {
             private PartitionContext partitionContext;
             private Stopwatch checkpointStopWatch;
-            private Filter filter;
             private IEventDataInspector eventDataInspector;
             private CancellationTokenSource cancellationTokenSource;
 

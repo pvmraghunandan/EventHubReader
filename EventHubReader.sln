@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHubReader", "EventHubReader\EventHubReader.csproj", "{A66C568C-BB5A-4C05-9551-C30C606F34A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHubReaderLib", "EventHubReaderLib\EventHubReaderLib.csproj", "{2EF5E126-EE13-43C2-8E56-9C3AEDD94632}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A66C568C-BB5A-4C05-9551-C30C606F34A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A66C568C-BB5A-4C05-9551-C30C606F34A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A66C568C-BB5A-4C05-9551-C30C606F34A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF5E126-EE13-43C2-8E56-9C3AEDD94632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF5E126-EE13-43C2-8E56-9C3AEDD94632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF5E126-EE13-43C2-8E56-9C3AEDD94632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF5E126-EE13-43C2-8E56-9C3AEDD94632}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

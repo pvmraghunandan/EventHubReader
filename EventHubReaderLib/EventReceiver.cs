@@ -10,7 +10,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace EventHubReader
+namespace EventHubReaderLib
 {
     using System.Collections.Concurrent;
     using System.Threading.Tasks;

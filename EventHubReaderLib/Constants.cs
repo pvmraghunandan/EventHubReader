@@ -10,7 +10,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace EventHubReader
+namespace EventHubReaderLib
 {
     public class Constants
     {
